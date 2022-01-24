@@ -1,6 +1,9 @@
 import {createServer} from 'http';
 import express from 'express';
 import {ApolloServer, gql} from 'apollo-server-express';
+import {PrismaClient} from '@prisma/client';
+
+const prisma = new PrismaClient();
 
 const startServer = async () => {
   const app = express();
@@ -8,14 +11,24 @@ const startServer = async () => {
 
   const typeDefs = gql`
     type Query {
-      hello: String
+      books: [Book]
+    }
+
+    type Book {
+      id: ID!
+      title: String!
+      author: String!
+      year: Int!
+      description: String
     }
   `;
 
   // noinspection JSUnusedGlobalSymbols
   const resolvers = {
     Query: {
-      hello: () => 'Hello world!',
+      books: () => {
+        return prisma.book.findMany();
+      },
     },
   };
 

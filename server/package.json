@@ -7,6 +7,7 @@
     "dev": "nodemon",
     "build": "rimraf ./build && tsc",
     "start": "npm run build && node build/index.js",
+    "migrate": "npx prisma migrate dev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -14,11 +15,13 @@
   "devDependencies": {
     "@types/node": "^17.0.10",
     "nodemon": "^2.0.15",
+    "prisma": "^3.8.1",
     "rimraf": "^3.0.2",
     "ts-node": "^10.4.0",
     "typescript": "^4.5.5"
   },
   "dependencies": {
+    "@prisma/client": "^3.8.1",
     "apollo-server-express": "^3.6.2",
     "express": "^4.17.2",
     "graphql": "^16.2.0"
