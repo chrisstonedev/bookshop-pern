@@ -1,26 +1,26 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import {useBookQuery} from './useRequest';
+import {GET_BOOKS} from './graphql';
+import AddBook from './components/AddBook';
+import {IBook} from './types/Book';
+import Book from './components/Book';
 
-function App() {
+const App: React.FC = () => {
+  const {loading, error, data} = useBookQuery(GET_BOOKS);
+
+  if (loading) return <h1>Loading...</h1>;
+  if (error) return <h1>Something went wrong!</h1>;
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>My Books</h1>
+      <AddBook/>
+      {data?.books.map((book: IBook) => (
+        <Book key={book.id} book={book}/>
+      ))}
     </div>
   );
-}
+};
 
 export default App;
