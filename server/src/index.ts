@@ -32,7 +32,7 @@ const startServer = async () => {
     },
   };
 
-  const apolloServer = new ApolloServer({typeDefs, resolvers});
+  const apolloServer = new ApolloServer({typeDefs, resolvers, introspection: true});
   await apolloServer.start();
   apolloServer.applyMiddleware({app, path: '/api'});
 
