@@ -11,7 +11,11 @@ const startServer = async () => {
 
   const typeDefs = gql`
     type Query {
-      books: [Book]
+      books: [Book!]!
+    }
+
+    type Mutation {
+      addBook(title: String!, author: String!): Book!
     }
 
     type Book {
@@ -30,6 +34,19 @@ const startServer = async () => {
         return prisma.book.findMany();
       },
     },
+    Mutation: {
+      addBook: (parent: any, args: any) => {
+        return prisma.book.create({
+          data: {
+            title: args.title,
+            author: args.author,
+            year: 2000,
+            cost: 10.00,
+            quantity: 5
+          }
+        });
+      }
+    }
   };
 
   const apolloServer = new ApolloServer({typeDefs, resolvers, introspection: true});
